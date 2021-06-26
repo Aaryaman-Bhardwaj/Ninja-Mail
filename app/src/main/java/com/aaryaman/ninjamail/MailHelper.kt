@@ -1,5 +1,6 @@
 package com.aaryaman.ninjamail
 //
+import com.aaryaman.ninjamail.model.ContactList
 import com.sendgrid.Method
 import com.sendgrid.Request
 import com.sendgrid.Response
@@ -17,9 +18,16 @@ class Mail {
 
 
 
+    fun sendMail(contactList: ContactList,from:Email){
+
+    }
+
+
+
 
     fun sendEmail(from:Email, to:Email,subject: String,content: Content): Boolean {
         val mail = Mail(from, subject, to, content)
+
         val sg = SendGrid(KeyProvider.API_KEY)
         val request = Request()
         return try {

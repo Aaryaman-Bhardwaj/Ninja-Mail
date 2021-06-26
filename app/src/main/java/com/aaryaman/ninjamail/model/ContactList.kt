@@ -1,7 +1,7 @@
 package com.aaryaman.ninjamail.model
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "ContactLists")
+@Entity(tableName = "contact_lists")
 class ContactList(val list:List<Contact>, @PrimaryKey val id:String, val name:String)
