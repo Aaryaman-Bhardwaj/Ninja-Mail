@@ -95,10 +95,11 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        android:autofillHints="" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/contact_spiner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -111,7 +112,7 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/fab"
+        android:id="@+id/schedule_post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/browser_actions_bg_grey"

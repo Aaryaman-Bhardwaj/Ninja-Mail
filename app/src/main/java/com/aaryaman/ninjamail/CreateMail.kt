@@ -3,18 +3,34 @@ package com.aaryaman.ninjamail
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.aaryaman.ninjamail.model.ContactList
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.datetime.dateTimePicker
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.richeditor.RichEditor
 
 
 class CreateMail : AppCompatActivity() {
+
+    lateinit var composeViewModel: ComposeViewModel
+    var contactList:ContactList?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_mail)
         init()
+        composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
     }
 
-    fun init() {
+    private fun init() {
         val mEditor = findViewById<View>(R.id.editor) as RichEditor
 //        mEditor.setEditorHeight(200)
         mEditor.setEditorFontSize(22)
@@ -220,6 +236,64 @@ class CreateMail : AppCompatActivity() {
             mEditor.insertTodo()
 
         }
+        val spinner = findViewById<Spinner>(R.id.contact_spiner)
+
+        composeViewModel.contactLists.observe(this){
+            val data= it?.map (ContactList::name) ?:return@observe
+            val adapter=  ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, data)
+            spinner.adapter=adapter
+        }
+
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val data = composeViewModel.contactLists.value ?: return
+                contactList=data[position]
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+
+            }
+        }
+
+        findViewById<MaterialButton>(R.id.schedule_post).setOnClickListener {
+            val subjectLine = findViewById<EditText>(R.id.subject_field)
+            val subject = subjectLine.text.toString()
+            val body =mEditor.html
+            when {
+                contactList == null -> {
+                    snackBar(it,"Please select a Contact List")
+                }
+                subject.isBlank() -> {
+                    snackBar(it,"Please provide a valid subject")
+                }
+                body.isNullOrBlank() ->{
+                    snackBar(it,"Please provide a valid Email Body")
+                }
+                else -> {
+                    schedulePost(subject, contactList!!,mEditor.html)
+                }
+            }
+        }
+
+    }
+
+    private fun schedulePost(subject: String, contactList: ContactList, html: String) {
+        MaterialDialog(this).show {
+            dateTimePicker(requireFutureDateTime = true) { materialDialog, dateTime ->
+
+            }
+        }
+    }
+
+    private fun snackBar(view: View, msg:String){
+        Snackbar.make(view,msg,Snackbar.LENGTH_SHORT).setAction("Ok") {
+
+        }.show()
     }
 
 
