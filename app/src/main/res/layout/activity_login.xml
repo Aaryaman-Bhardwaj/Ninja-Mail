@@ -5,15 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/common_full_open_on_phone" />
+
     <EditText
         android:id="@+id/editTextEmailAddress"
         android:layout_width="237dp"
         android:layout_height="49dp"
         android:layout_marginTop="104dp"
         android:layout_marginBottom="12dp"
-        android:background="@drawable/edittextbackground"
         android:ems="10"
-        android:hint="Email"
+        android:hint="Email Id"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textColor="@color/black"
@@ -29,7 +35,6 @@
         android:layout_height="49dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="41dp"
-        android:background="@drawable/edittextbackground"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
