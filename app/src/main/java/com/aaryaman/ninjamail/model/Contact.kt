@@ -1,3 +1,5 @@
 package com.aaryaman.ninjamail.model
 
-data class Contact(val email:String,val name:String)
+import android.arch.persistence.room.PrimaryKey
+
+data class Contact(@PrimaryKey val email:String, val name:String)
