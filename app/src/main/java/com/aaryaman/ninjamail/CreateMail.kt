@@ -9,9 +9,6 @@ class CreateMail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_mail)
 
-
-
-
     }
 
 
