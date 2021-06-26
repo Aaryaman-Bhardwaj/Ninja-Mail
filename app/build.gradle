@@ -46,6 +46,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 //    implementation 'com.github.danysantiago:sendgrid-android:1'
 //    implementation 'uk.co.jakebreen:android-sendgrid:1.2.2'
+    // https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java
+    implementation group: 'com.sendgrid', name: 'sendgrid-java', version: '4.7.2'
+
     implementation platform('com.google.firebase:firebase-bom:28.2.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
