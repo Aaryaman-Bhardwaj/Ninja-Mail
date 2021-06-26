@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -31,6 +32,9 @@ android {
     }
 }
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.5.0'
@@ -41,7 +45,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 //    implementation 'com.github.danysantiago:sendgrid-android:1'
-    implementation 'uk.co.jakebreen:android-sendgrid:1.2.2'
-
-
+//    implementation 'uk.co.jakebreen:android-sendgrid:1.2.2'
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
 }

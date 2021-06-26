@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "350775582238",
+    "project_id": "ninja-mail-4efe8",
+    "storage_bucket": "ninja-mail-4efe8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350775582238:android:184511c07f1666bb1f980f",
+        "android_client_info": {
+          "package_name": "com.aaryaman.ninjamail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "350775582238-k3m0gcu0hln8a5t3mpf6c4i2a86l758a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aaryaman.ninjamail",
+            "certificate_hash": "a70e6ee25b01e635c4dbd2a81108c6061c422382"
+          }
+        },
+        {
+          "client_id": "350775582238-uku32gcfqm4vl4775rl5f674klinja6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASdGBZiDYihhKC7BBPjmC5yTxr8w2I8xo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "350775582238-uku32gcfqm4vl4775rl5f674klinja6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
