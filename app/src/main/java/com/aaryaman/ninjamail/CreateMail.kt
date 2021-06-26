@@ -35,13 +35,11 @@ class CreateMail : AppCompatActivity() {
 //        mEditor.setOnTextChangeListener(OnTextChangeListener { text -> mPreview.text = text })
 
         findViewById<View>(R.id.action_undo).setOnClickListener {
-
             mEditor.undo()
         }
 
 
         findViewById<View>(R.id.action_redo).setOnClickListener {
-
             mEditor.redo()
 
         }
