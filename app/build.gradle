@@ -15,7 +15,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
+    
 
     buildTypes {
         release {
@@ -60,8 +62,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
 
-    implementation "android.arch.persistence.room:runtime:1.1.1"
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+// https://mvnrepository.com/artifact/androidx.room/room-runtime
+    implementation group: 'androidx.room', name: 'room-runtime', version: '2.4.0-alpha03'
+// https://mvnrepository.com/artifact/androidx.room/room-compiler
+    annotationProcessor group: 'androidx.room', name: 'room-compiler', version: '2.4.0-alpha03'
 
     // https://mvnrepository.com/artifact/android.arch.lifecycle/viewmodel
     implementation group: 'android.arch.lifecycle', name: 'viewmodel', version: '1.1.1'

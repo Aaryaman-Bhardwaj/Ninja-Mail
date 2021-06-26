@@ -7,13 +7,13 @@ import androidx.room.RoomDatabase
 import com.aaryaman.ninjamail.model.ContactList
 
 
-@Database(entities = [(ContactList::class)], version = 1, exportSchema = false)
+@Database(entities = [(ContactList::class)], version = 1)
 abstract class NinjaMailDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: NinjaMailDatabase? = null
         fun getDataBase(context: Context): NinjaMailDatabase {
             if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context.applicationContext, NinjaMailDatabase::class.java, "contacts-db")
+                INSTANCE = Room.databaseBuilder(context.applicationContext, NinjaMailDatabase::class.java, "contact_lists")
                     .allowMainThreadQueries().build()
             }
             return INSTANCE as NinjaMailDatabase

@@ -25,9 +25,10 @@ class CreateMail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
+
         setContentView(R.layout.activity_create_mail)
         init()
-        composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
     }
 
     private fun init() {
