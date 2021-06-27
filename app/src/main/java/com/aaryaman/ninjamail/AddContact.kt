@@ -15,22 +15,7 @@ class AddContact : AppCompatActivity() {
 
         add_person.setOnClickListener {
 
-            val dbManager= DbManager(this)
 
-            val values= ContentValues()
-            values.put("Name", ed_name.text.toString())
-            values.put("Email",ed_email.text.toString())
-//            values.put("ContactGroup", sp_group.selectedItem.toString())
-
-            val ID= dbManager.InsertRegularTask(values)
-
-            if (ID>0)
-                Toast.makeText(this, "Contact added ✅ \n Id- $ID", Toast.LENGTH_SHORT).show()
-            else
-                Toast.makeText(this, "Error occurred ", Toast.LENGTH_SHORT).show()
-
-            ed_name.text= "".toEditable()
-            ed_email.text= "".toEditable()
 
 
         }
