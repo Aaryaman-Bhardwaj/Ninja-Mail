@@ -28,6 +28,8 @@ class CreateMail : AppCompatActivity() {
         composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
 
         setContentView(R.layout.activity_create_mail)
+
+
         init()
     }
 
@@ -55,7 +57,6 @@ class CreateMail : AppCompatActivity() {
             mEditor.undo()
         }
 
-
         findViewById<View>(R.id.action_redo).setOnClickListener {
             mEditor.redo()
 
@@ -65,7 +66,6 @@ class CreateMail : AppCompatActivity() {
 
             mEditor.setBold()
         }
-
 
         findViewById<View>(R.id.action_italic).setOnClickListener {
 
@@ -237,13 +237,11 @@ class CreateMail : AppCompatActivity() {
             mEditor.insertTodo()
 
         }
+
+
         val spinner = findViewById<Spinner>(R.id.contact_spiner)
 
-        composeViewModel.contactLists.observe(this){
-            val data= it?.map (ContactList::name) ?:return@observe
-            val adapter=  ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1, data)
-            spinner.adapter=adapter
-        }
+
 
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(
