@@ -13,8 +13,10 @@ class ComposeViewModel(application: Application) : AndroidViewModel(application)
     val contactLists = MutableLiveData<List<ContactList>>()
 
 
-    fun loadContacts() {
+    fun addContact() {
         val data= listOf(ContactList(listOf(Contact("meghdut.windows@gmail.com","Meghdut")),"star","Megh"))
         contactLists.postValue(data)
     }
+
+
 }

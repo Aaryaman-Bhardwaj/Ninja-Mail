@@ -1,6 +1,5 @@
 package com.aaryaman.ninjamail.recycler
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import com.aaryaman.ninjamail.R
 class HomeRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RegularTaskListViewHolder(
+        return ContactListViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.mail_list_item, parent, false)
         )
@@ -18,7 +17,7 @@ class HomeRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RegularTaskListViewHolder -> {
+            is ContactListViewHolder -> {
 //                holder.bind(!![position])
             }
         }
