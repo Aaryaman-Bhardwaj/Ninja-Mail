@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.datetime.dateTimePicker
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.richeditor.RichEditor
+import kotlinx.android.synthetic.main.activity_create_mail.*
 
 
 class CreateMail : AppCompatActivity() {
@@ -28,6 +29,10 @@ class CreateMail : AppCompatActivity() {
         composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
 
         setContentView(R.layout.activity_create_mail)
+
+        toolbar.setNavigationOnClickListener {
+            super.onBackPressed()
+        }
 
 
         init()

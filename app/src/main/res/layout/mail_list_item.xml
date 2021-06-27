@@ -21,7 +21,7 @@
             android:pointerIcon="zoom_in"
             android:text="2 files attached"
             android:textColor="#2C2424"
-            app:icon="@drawable/ic_outline_attach_file_24"
+            android:drawableStart="@drawable/ic_outline_attach_file_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />

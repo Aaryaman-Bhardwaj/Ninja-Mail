@@ -12,6 +12,7 @@ import com.aaryaman.ninjamail.model.Contact
 import com.aaryaman.ninjamail.recycler.ContactRecyclerAdapter
 import com.aaryaman.ninjamail.recycler.HomeRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_contact_list.*
+import kotlinx.android.synthetic.main.activity_create_mail.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,6 +30,9 @@ class ContactList : AppCompatActivity() {
 
         refreshList()
 
+        toolbar2.setNavigationOnClickListener {
+            super.onBackPressed()
+        }
 
     }
 

@@ -13,14 +13,17 @@
         <activity android:name=".ContactList" />
         <activity android:name=".Register" />
         <activity android:name=".Login">
+
+        </activity>
+        <activity android:name=".CreateMail" />
+        <activity android:name=".HomePage"></activity>
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateMail" />
-        <activity android:name=".HomePage"></activity>
     </application>
 
 </manifest>
