@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import jp.wasabeef.richeditor.RichEditor
 import java.util.concurrent.TimeUnit
+import kotlinx.android.synthetic.main.activity_create_mail.*
 
 
 class CreateMail : AppCompatActivity() {
@@ -31,8 +32,12 @@ class CreateMail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
-        composeViewModel.addContact()
+
         setContentView(R.layout.activity_create_mail)
+
+        toolbar.setNavigationOnClickListener {
+            super.onBackPressed()
+        }
 
 
         init()
@@ -43,8 +48,15 @@ class CreateMail : AppCompatActivity() {
             contactList=it?.get(0)?:return@observe
         }
         val mEditor = findViewById<View>(R.id.editor) as RichEditor
+//        mEditor.setEditorHeight(200)
         mEditor.setEditorFontSize(22)
         mEditor.setEditorFontColor(Color.BLACK)
+        //mEditor.setEditorBackgroundColor(Color.BLUE);
+        //mEditor.setBackgroundColor(Color.BLUE);
+        //mEditor.setBackgroundResource(R.drawable.bg);
+        //mEditor.setEditorBackgroundColor(Color.BLUE);
+        //mEditor.setBackgroundColor(Color.BLUE);
+        //mEditor.setBackgroundResource(R.drawable.bg);
         mEditor.setPadding(10, 10, 10, 10)
         //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
         //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
@@ -240,6 +252,25 @@ class CreateMail : AppCompatActivity() {
         }
 
 
+        val spinner = findViewById<Spinner>(R.id.contact_spiner)
+
+
+
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View,
+                position: Int,
+                id: Long
+            ) {
+                val data = composeViewModel.contactLists.value ?: return
+                contactList=data[position]
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+
+            }
+        }
 
         findViewById<MaterialButton>(R.id.schedule_post).setOnClickListener {
             val subjectLine = findViewById<EditText>(R.id.subject_field)

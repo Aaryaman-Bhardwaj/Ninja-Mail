@@ -65,6 +65,10 @@ class ContactList : AppCompatActivity() {
             }
 
         }
+        toolbar2.setNavigationOnClickListener {
+            super.onBackPressed()
+        }
+
     }
 
 
