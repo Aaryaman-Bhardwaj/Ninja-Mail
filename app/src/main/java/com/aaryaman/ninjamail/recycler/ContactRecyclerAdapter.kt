@@ -48,7 +48,7 @@ class ContactListViewHolder constructor(itemView : View) : RecyclerView.ViewHold
     fun bind(contact: Contact) {
         name.text= contact.name
         email.text = contact.email
-//        group.text = contact.group
+        group.text = contact.group
         Log.e("TAG", contactsList.size.toString())
     }
 

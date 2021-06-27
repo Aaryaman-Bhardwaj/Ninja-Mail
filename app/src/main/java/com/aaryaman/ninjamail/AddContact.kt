@@ -20,7 +20,7 @@ class AddContact : AppCompatActivity() {
             val values= ContentValues()
             values.put("Name", ed_name.text.toString())
             values.put("Email",ed_email.text.toString())
-//            values.put("ContactGroup", sp_group.selectedItem.toString())
+            values.put("ContactGroup", sp_group.selectedItem.toString())
 
             val ID= dbManager.InsertRegularTask(values)
 
