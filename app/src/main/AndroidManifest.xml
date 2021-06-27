@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NinjaMail">
-        <activity android:name=".AddContact" />
         <activity android:name=".ContactList" />
         <activity android:name=".Register" />
         <activity android:name=".Login">

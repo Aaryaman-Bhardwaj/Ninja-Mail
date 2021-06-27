@@ -13,5 +13,8 @@ class HomePage : AppCompatActivity() {
         goto_contacts.setOnClickListener {
                     startActivity(Intent(this, ContactList::class.java))
         }
+        compose_mails.setOnClickListener {
+            startActivity(Intent(this, CreateMail::class.java))
+        }
     }
 }

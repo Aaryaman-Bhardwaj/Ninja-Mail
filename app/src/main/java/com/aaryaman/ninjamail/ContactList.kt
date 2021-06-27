@@ -11,13 +11,11 @@ import androidx.core.database.getStringOrNull
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aaryaman.ninjamail.model.Contact
 import com.aaryaman.ninjamail.recycler.ContactRecyclerAdapter
-import com.aaryaman.ninjamail.recycler.HomeRecyclerAdapter
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
-import kotlinx.android.synthetic.main.activity_add_contact.*
 import kotlinx.android.synthetic.main.activity_contact_list.*
 import kotlinx.android.synthetic.main.add_contact_layout.view.*
 import java.util.*
