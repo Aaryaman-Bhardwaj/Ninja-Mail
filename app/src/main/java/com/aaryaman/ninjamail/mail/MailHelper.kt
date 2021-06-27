@@ -1,36 +1,32 @@
 package com.aaryaman.ninjamail
 //
+
 import com.aaryaman.ninjamail.mail.MailCount
-import com.aaryaman.ninjamail.model.EmailRequest
+import com.aaryaman.ninjamail.model.*
 import com.chibatching.kotpref.bulk
-import com.sendgrid.Method
-import com.sendgrid.Request
-import com.sendgrid.Response
-import com.sendgrid.SendGrid
-import com.sendgrid.helpers.mail.Mail
-import com.sendgrid.helpers.mail.objects.Content
-import com.sendgrid.helpers.mail.objects.Email
-import java.io.IOException
-import java.lang.Exception
-import javax.security.auth.Subject
+import com.google.gson.Gson
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import java.util.Objects.requireNonNull
 
 
 object MailHelper {
-
+   val gson=Gson()
 
     fun sendMail(emailRequest: EmailRequest) {
-        val from = Email(emailRequest.fromEmail)
-        val content = Content("text/html", emailRequest.body)
         emailRequest.contactList.list.forEach {
-            val to = Email(it.email, it.name)
-            sendEmail(from,to,emailRequest.subect,content)
+            sendEmail(it.email,emailRequest)
         }
+
     }
 
 
 
 
-    private fun sendEmail(from: Email, to: Email, subject: String, content: Content): Boolean {
+    private fun sendEmail(to:String,emailRequest: EmailRequest): Boolean {
         if (MailCount.count>100){
             Exception("Limit crossed of 100 ").printStackTrace()
             return true
@@ -38,21 +34,30 @@ object MailHelper {
         MailCount.bulk {
             count++
         }
-        val mail = Mail(from, subject, to, content)
-        val sg = SendGrid(KeyProvider.API_KEY)
-        val request = Request()
-        return try {
-            request.method = Method.POST
-            request.endpoint = "mail/send"
-            request.body = mail.build()
-            val response: Response = sg.api(request)
-            println(response.statusCode)
-            println(response.body)
-            println(response.headers)
-            true
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            false
-        }
+
+        val content = Content("text/html", emailRequest.body)
+        val fromMail = Mail(emailRequest.fromEmail, "")
+        val toMail = Mail(to, "")
+        val personalization = Personalization(emailRequest.subect, toMail)
+
+
+        val emailFUll = EmailRequestSendgrid(content, fromMail, personalization, null)
+
+        val client = OkHttpClient().newBuilder()
+            .build()
+        val mediaType = "application/json".toMediaTypeOrNull()
+        val body: RequestBody = RequestBody.create(mediaType, gson.toJson(emailFUll) )
+        val request = Request.Builder()
+            .url("https://api.sendgrid.com/v3/mail/send")
+            .method("POST", body)
+            .addHeader("Authorization", "Bearer " + KeyProvider.API_KEY)
+            .addHeader("Content-Type", "application/json")
+            .build()
+        val response = client.newCall(request).execute()
+
+        val strBody = response.body?.string()
+        val responseCode: Int = response.code
+        response.close()
+        return responseCode in 200..210;
     }
 }

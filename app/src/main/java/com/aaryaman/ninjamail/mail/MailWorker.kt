@@ -12,9 +12,7 @@ class MailWorker(appContext: Context, workerParams: WorkerParameters): Worker(ap
 
         companion object {
             const val EMAIL_REQUEST = "email.request"
-            fun schedule(emailRequest: EmailRequest){
 
-            }
         }
 
         override fun doWork(): Result {
