@@ -16,10 +16,12 @@ import java.util.Objects.requireNonNull
 object MailHelper {
    val gson=Gson()
 
-    fun sendMail(emailRequest: EmailRequest) {
+    fun sendMail(emailRequest: EmailRequest): Boolean {
+        var send=true
         emailRequest.contactList.list.forEach {
-            sendEmail(it.email,emailRequest)
+           send=send && sendEmail(it.email,emailRequest)
         }
+        return send
 
     }
 

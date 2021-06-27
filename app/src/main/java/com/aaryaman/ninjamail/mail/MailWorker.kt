@@ -16,16 +16,19 @@ class MailWorker(appContext: Context, workerParams: WorkerParameters): Worker(ap
         }
 
         override fun doWork(): Result {
-            try {
+            return try {
                 val emailData  = inputData.getString(EMAIL_REQUEST)
                 val gson=Gson()
                 val emailRequest = gson.fromJson(emailData, EmailRequest::class.java)
-                MailHelper.sendMail(emailRequest)
-                return Result.success()
+                val sendMail = MailHelper.sendMail(emailRequest)
+                if (sendMail)
+                    Result.success()
+                else Result.failure()
             }catch (e:Exception){
                 e.printStackTrace()
+                Result.failure()
             }
-            return Result.failure()
+
         }
 
 

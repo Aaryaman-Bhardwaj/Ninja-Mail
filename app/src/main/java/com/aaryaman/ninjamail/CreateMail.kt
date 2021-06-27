@@ -32,7 +32,7 @@ class CreateMail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
-
+        composeViewModel.addContact()
         setContentView(R.layout.activity_create_mail)
 
         toolbar.setNavigationOnClickListener {
@@ -252,25 +252,10 @@ class CreateMail : AppCompatActivity() {
         }
 
 
-        val spinner = findViewById<Spinner>(R.id.contact_spiner)
 
 
 
-        spinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View,
-                position: Int,
-                id: Long
-            ) {
-                val data = composeViewModel.contactLists.value ?: return
-                contactList=data[position]
-            }
 
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-
-            }
-        }
 
         findViewById<MaterialButton>(R.id.schedule_post).setOnClickListener {
             val subjectLine = findViewById<EditText>(R.id.subject_field)
@@ -313,7 +298,7 @@ class CreateMail : AppCompatActivity() {
     ) {
         val emailRequest = EmailRequest(
             System.currentTimeMillis(),
-            "aryaman.bharadwah@gmail.com",
+            "1905827@kiit.ac.in",
             contactList,
             html,
             subject
@@ -324,12 +309,13 @@ class CreateMail : AppCompatActivity() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-        val work = PeriodicWorkRequestBuilder<MailWorker>(30, TimeUnit.SECONDS)
+        val work = PeriodicWorkRequestBuilder<MailWorker>(30, TimeUnit.SECONDS,
+            15, TimeUnit.SECONDS)
             .setConstraints(constraints)
             .setInputData(inputData)
             .build()
         val workManager = WorkManager.getInstance()
-        workManager.enqueueUniquePeriodicWork("mail", ExistingPeriodicWorkPolicy.REPLACE, work)
+        workManager.enqueue( work)
     }
 
     private fun snackBar(view: View, msg:String){
