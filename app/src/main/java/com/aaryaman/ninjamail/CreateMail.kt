@@ -10,12 +10,17 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.*
+import com.aaryaman.ninjamail.mail.MailWorker
 import com.aaryaman.ninjamail.model.ContactList
+import com.aaryaman.ninjamail.model.EmailRequest
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.dateTimePicker
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import jp.wasabeef.richeditor.RichEditor
+import java.util.concurrent.TimeUnit
 
 
 class CreateMail : AppCompatActivity() {
@@ -35,15 +40,8 @@ class CreateMail : AppCompatActivity() {
 
     private fun init() {
         val mEditor = findViewById<View>(R.id.editor) as RichEditor
-//        mEditor.setEditorHeight(200)
         mEditor.setEditorFontSize(22)
         mEditor.setEditorFontColor(Color.BLACK)
-        //mEditor.setEditorBackgroundColor(Color.BLUE);
-        //mEditor.setBackgroundColor(Color.BLUE);
-        //mEditor.setBackgroundResource(R.drawable.bg);
-        //mEditor.setEditorBackgroundColor(Color.BLUE);
-        //mEditor.setBackgroundColor(Color.BLUE);
-        //mEditor.setBackgroundResource(R.drawable.bg);
         mEditor.setPadding(10, 10, 10, 10)
         //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
         //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
@@ -283,10 +281,40 @@ class CreateMail : AppCompatActivity() {
 
     private fun schedulePost(subject: String, contactList: ContactList, html: String) {
         MaterialDialog(this).show {
-            dateTimePicker(requireFutureDateTime = true) { materialDialog, dateTime ->
-
+            message(text = "Currently mails can only be scheduled on 30sec interval. Do you want to continue ? ")
+            positiveButton(text = "Okay") { dialog ->
+                scheduleWork(contactList, html, subject)
+            }
+            negativeButton(text = "Cancel") { dialog ->
+              this.dismiss()
             }
         }
+    }
+
+    private fun scheduleWork(
+        contactList: ContactList,
+        html: String,
+        subject: String
+    ) {
+        val emailRequest = EmailRequest(
+            System.currentTimeMillis(),
+            "aryaman.bharadwah@gmail.com",
+            contactList,
+            html,
+            subject
+        )
+        val gson = Gson()
+        val inputData =
+            Data.Builder().putString(MailWorker.EMAIL_REQUEST, gson.toJson(emailRequest)).build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val work = PeriodicWorkRequestBuilder<MailWorker>(30, TimeUnit.SECONDS)
+            .setConstraints(constraints)
+            .setInputData(inputData)
+            .build()
+        val workManager = WorkManager.getInstance()
+        workManager.enqueueUniquePeriodicWork("mail", ExistingPeriodicWorkPolicy.REPLACE, work)
     }
 
     private fun snackBar(view: View, msg:String){
