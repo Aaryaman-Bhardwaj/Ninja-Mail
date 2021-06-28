@@ -1,5 +1,6 @@
 package com.aaryaman.ninjamail
 
+import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +11,13 @@ import androidx.core.database.getStringOrNull
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aaryaman.ninjamail.model.Contact
 import com.aaryaman.ninjamail.recycler.ContactRecyclerAdapter
-import com.aaryaman.ninjamail.recycler.HomeRecyclerAdapter
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import kotlinx.android.synthetic.main.activity_contact_list.*
-import kotlinx.android.synthetic.main.activity_create_mail.*
+import kotlinx.android.synthetic.main.add_contact_layout.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -20,21 +25,52 @@ var contactsList : ArrayList<Contact> = ArrayList()
 
 
 class ContactList : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_list)
 
         add_contact.setOnClickListener {
-            startActivity(Intent(this, AddContact::class.java))
+           showAddDialog()
         }
 
         refreshList()
 
+
+    }
+
+    private fun showAddDialog() {
+        MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+
+           customView(R.layout.add_contact_layout)
+            getCustomView().apply {
+                contact_add_db.setOnClickListener {
+                    val email= email_field.text.toString()
+                    val name=name_field.text.toString()
+                    val dbManager= DbManager(it.context)
+
+                    val values= ContentValues()
+                    values.put("Name", name)
+                    values.put("Email",email)
+
+                    val ID= dbManager.InsertRegularTask(values)
+
+                    if (ID>0)
+                        Toast.makeText(email_field.context, "Contact added ✅ \n Id- $ID", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(email_field.context, "Error occurred ", Toast.LENGTH_SHORT).show()
+                    dismiss()
+                    refreshList()
+                }
+            }
+
+        }
         toolbar2.setNavigationOnClickListener {
             super.onBackPressed()
         }
 
     }
+
 
     fun refreshList(){
 

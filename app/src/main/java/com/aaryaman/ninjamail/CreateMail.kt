@@ -10,12 +10,17 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.*
+import com.aaryaman.ninjamail.mail.MailWorker
 import com.aaryaman.ninjamail.model.ContactList
+import com.aaryaman.ninjamail.model.EmailRequest
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.datetime.dateTimePicker
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import jp.wasabeef.richeditor.RichEditor
+import java.util.concurrent.TimeUnit
 import kotlinx.android.synthetic.main.activity_create_mail.*
 
 
@@ -27,7 +32,7 @@ class CreateMail : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         composeViewModel = ViewModelProvider(this).get(ComposeViewModel::class.java)
-
+        composeViewModel.addContact()
         setContentView(R.layout.activity_create_mail)
 
         toolbar.setNavigationOnClickListener {
@@ -39,6 +44,9 @@ class CreateMail : AppCompatActivity() {
     }
 
     private fun init() {
+        composeViewModel.contactLists.observe(this){
+            contactList=it?.get(0)?:return@observe
+        }
         val mEditor = findViewById<View>(R.id.editor) as RichEditor
 //        mEditor.setEditorHeight(200)
         mEditor.setEditorFontSize(22)
@@ -244,25 +252,10 @@ class CreateMail : AppCompatActivity() {
         }
 
 
-        val spinner = findViewById<Spinner>(R.id.contact_spiner)
 
 
 
-        spinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View,
-                position: Int,
-                id: Long
-            ) {
-                val data = composeViewModel.contactLists.value ?: return
-                contactList=data[position]
-            }
 
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-
-            }
-        }
 
         findViewById<MaterialButton>(R.id.schedule_post).setOnClickListener {
             val subjectLine = findViewById<EditText>(R.id.subject_field)
@@ -288,10 +281,41 @@ class CreateMail : AppCompatActivity() {
 
     private fun schedulePost(subject: String, contactList: ContactList, html: String) {
         MaterialDialog(this).show {
-            dateTimePicker(requireFutureDateTime = true) { materialDialog, dateTime ->
-
+            message(text = "Currently mails can only be scheduled on 30sec interval. Do you want to continue ? ")
+            positiveButton(text = "Okay") { dialog ->
+                scheduleWork(contactList, html, subject)
+            }
+            negativeButton(text = "Cancel") { dialog ->
+              this.dismiss()
             }
         }
+    }
+
+    private fun scheduleWork(
+        contactList: ContactList,
+        html: String,
+        subject: String
+    ) {
+        val emailRequest = EmailRequest(
+            System.currentTimeMillis(),
+            "1905827@kiit.ac.in",
+            contactList,
+            html,
+            subject
+        )
+        val gson = Gson()
+        val inputData =
+            Data.Builder().putString(MailWorker.EMAIL_REQUEST, gson.toJson(emailRequest)).build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val work = PeriodicWorkRequestBuilder<MailWorker>(30, TimeUnit.SECONDS,
+            15, TimeUnit.SECONDS)
+            .setConstraints(constraints)
+            .setInputData(inputData)
+            .build()
+        val workManager = WorkManager.getInstance()
+        workManager.enqueue( work)
     }
 
     private fun snackBar(view: View, msg:String){
