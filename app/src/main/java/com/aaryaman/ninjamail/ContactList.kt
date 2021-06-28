@@ -31,7 +31,8 @@ class ContactList : AppCompatActivity() {
         setContentView(R.layout.activity_contact_list)
 
         add_contact.setOnClickListener {
-           showAddDialog()
+//           showAddDialog()
+            startActivity(Intent(this, AddContact::class.java))
         }
 
         refreshList()
@@ -39,37 +40,37 @@ class ContactList : AppCompatActivity() {
 
     }
 
-    private fun showAddDialog() {
-        MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-
-           customView(R.layout.add_contact_layout)
-            getCustomView().apply {
-                contact_add_db.setOnClickListener {
-                    val email= email_field.text.toString()
-                    val name=name_field.text.toString()
-                    val dbManager= DbManager(it.context)
-
-                    val values= ContentValues()
-                    values.put("Name", name)
-                    values.put("Email",email)
-
-                    val ID= dbManager.InsertRegularTask(values)
-
-                    if (ID>0)
-                        Toast.makeText(email_field.context, "Contact added ✅ \n Id- $ID", Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(email_field.context, "Error occurred ", Toast.LENGTH_SHORT).show()
-                    dismiss()
-                    refreshList()
-                }
-            }
-
-        }
-        toolbar2.setNavigationOnClickListener {
-            super.onBackPressed()
-        }
-
-    }
+//    private fun showAddDialog() {
+//        MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+//
+//           customView(R.layout.add_contact_layout)
+//            getCustomView().apply {
+//                contact_add_db.setOnClickListener {
+//                    val email= email_field.text.toString()
+//                    val name=name_field.text.toString()
+//                    val dbManager= DbManager(it.context)
+//
+//                    val values= ContentValues()
+//                    values.put("Name", name)
+//                    values.put("Email",email)
+//
+//                    val ID= dbManager.InsertRegularTask(values)
+//
+//                    if (ID>0)
+//                        Toast.makeText(email_field.context, "Contact added ✅ \n Id- $ID", Toast.LENGTH_SHORT).show()
+//                    else
+//                        Toast.makeText(email_field.context, "Error occurred ", Toast.LENGTH_SHORT).show()
+//                    dismiss()
+//                    refreshList()
+//                }
+//            }
+//
+//        }
+//        toolbar2.setNavigationOnClickListener {
+//            super.onBackPressed()
+//        }
+//
+//    }
 
 
     fun refreshList(){
